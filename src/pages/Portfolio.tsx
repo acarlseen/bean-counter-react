@@ -1,9 +1,10 @@
 import { BeanCard } from "../components/BeanCard"
-import { BeanPortfolio } from "../components/BeanPortfolio"
+import { BeanPortfolio } from "../components/BeanProfile"
 import { useGetPortfolio } from "../custom-hooks/getPortfolio"
 import { BeanTable } from "../components/BeanTable";
 import { useEffect, useState } from "react";
 import { AddButton } from "../components/AddButton";
+import { DeleteButton } from "../components/DeleteButton";
 
 
 {/* <button><i className="fa-regular fa-pen-to-square"></i></button>
@@ -23,7 +24,8 @@ interface userPortfolio{
     blend: string,
     tasting_notes: string,
     timestamp: string,
-    flavors: string
+    flavors: string,
+    coffeeID: string,
 }
 
 export default function Portfolio() {
@@ -46,7 +48,7 @@ export default function Portfolio() {
     
     useEffect( () => {
         console.log(`SelectionModel: ${selectionModel}`);
-        console.log(`portfolioData: ${portfolioData[0]}`)
+        console.log(`portfolioData: ${JSON.stringify(loadBeans)}`)
         handleBeanCards();
     }, [selectionModel])
 
@@ -55,8 +57,9 @@ export default function Portfolio() {
     <div className="flex flex-row w-full py-2 px- bg-orange-200 h-screen/93 gap-4">
         <div className="flex flex-col p-5 w-1/2  rounded-lg bg-orange-900">
             <BeanTable beanList={portfolioData} hiddenCols={hiddenCols} handleSelection={handleSelection}/>
-            <div className="p-3">
-                <AddButton />
+            <div className="flex p-3 justify-between">
+                <AddButton icon={false}/>
+                    <DeleteButton icon={false} coffee={loadBeans} />
             </div>
         </div>
         <div className="flex flex-col w-1/2 gap-4 overflow-auto">
@@ -86,8 +89,8 @@ export default function Portfolio() {
                                     { obj.flavors }
                                 </div>
                                 <div className="flex flex-row justify-end">
-                                    <button><i className="fa-regular fa-pen-to-square"></i></button>
-                                    <button className="mx-3"><i className="fa-solid fa-trash"></i></button>
+                                    <AddButton icon={true}  coffeeID={obj.coffeeID} />
+                                    <DeleteButton icon={true} coffee={[obj]} />
                                 </div>
                             </div>
                         </div>

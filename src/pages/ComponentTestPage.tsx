@@ -1,14 +1,14 @@
-import { BeanTable } from "../components/BeanTable";
-import { useGetPortfolio } from "../custom-hooks/getPortfolio";
+import { useState } from "react";
+import { BeanForm } from "../components/BeanForm";
+import { AddButton } from "../components/AddButton";
+import { DeleteButton } from "../components/DeleteButton";
 
 export default function ComponentTestPage() {
-  const { portfolioData, setPortfolioData } = useGetPortfolio();
-
-  //console.log(portfolioData);
   
-  return (
-    <div>
-      <BeanTable beanList={portfolioData} />
-    </div>
+
+  return(
+  <>
+    <DeleteButton icon={false} />
+  </>
   )
 }

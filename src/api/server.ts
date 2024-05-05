@@ -50,22 +50,56 @@ export const server_calls = {
 
         return await response.json();
     },
-    addBeans: async (user_id: string) => {
-        const response = await fetch(`${base_url}/${user_id}`,{
+    create: async (data: any, endpoint: string) => {
+        const response = await fetch(`${base_url}/${endpoint}`,{
             method: 'POST',
             headers: {
+                'Content-type' : 'application/JSON',
                 'x-access-token': token
-            }
+            },
+            body: JSON.stringify(data)
         });
+
+        if(!response.ok){
+            throw new Error('Failed to create new Bean entry')
+        }
+
+        return await response.json();
+    },
+update: async (data: any, endpoint: string) => {
+    console.log(`${base_url}'${endpoint}`)
+    console.log(`Data: ${JSON.stringify(data)}`);
+    
+        const response = await fetch(`${base_url}/${endpoint}`,{
+            method: 'PUT',
+            headers: {
+                'Content-type' : 'application/JSON',
+                'x-access-token': token
+            },
+            body: JSON.stringify(data)
+        });
+
+        if(!response.ok){
+            throw new Error('Failed to create new Bean entry')
+        }
+
+        return await response.json();
     },
     
-    delete_coffee: async (user_id: string, coffee_id: string) => {
+    delete_coffee: async (endpoint: string) => {
         // deletes a single coffee from a single portfolio
-        const response = await fetch(`${base_url}/${user_id}/${coffee_id}`,{
+        const response = await fetch(`${base_url}/${endpoint}`,{
             method: 'DELETE',
             headers: {
-                'x-access-token': token
+                'x-access-token': token,
+                'Content-type': 'application/JSON'
             }
         });
+
+        if (!response.ok){
+            throw new Error('Could not delete entry')
+        }
+
+        return await response.json()
     },
 }

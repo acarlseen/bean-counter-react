@@ -15,7 +15,7 @@ interface BeanList {
     producer: string,
     variety: string,
     process_method: string,
-    blend: string,
+    blend: string, 
 }
 
 interface Props {
