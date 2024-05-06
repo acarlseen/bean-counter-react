@@ -58,20 +58,24 @@ export const DeleteButton = (props: Props) => {
     return (
     <>
         {
-            props.icon ?
-            <div>
-                <button onClick={ () => handleClick() }>
-                    <i className="fa-solid fa-trash"></i>
-                </button>
-                
-            </div>
-            :
-            <div>
-                <button onClick={ () => handleClick() }
-                className="bg-red-400 text-orange-100 font-medium p-2 rounded border-orange-100 border-2 hover:bg-red-500">
+            props.coffee.length == 0 ?
+                <button className="bg-gray-300 text-gray-500 font-medium p-2 rounded border-gray-50 border-2">
                     Delete
                 </button>
-            </div>
+            : props.icon ?
+                <div>
+                    <button onClick={ () => handleClick() }>
+                        <i className="fa-solid fa-trash p-1"></i>
+                    </button>
+                    
+                </div>
+            :
+                <div>
+                    <button onClick={ () => handleClick() }
+                    className="bg-red-400 text-orange-100 font-medium p-2 rounded border-orange-100 border-2 hover:bg-red-500">
+                        Delete
+                    </button>
+                </div>
         }
         
             <Dialog 

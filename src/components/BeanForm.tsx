@@ -2,7 +2,7 @@
 // will accept some optional prop for update 
 // if prop.update -> updateAPIendpoint
 
-import { FormControlLabel, Radio, RadioGroup, TextField } from "@mui/material"
+import { Alert, FormControlLabel, Radio, RadioGroup, TextField } from "@mui/material"
 import { useEffect } from "react"
 import { useForm } from "react-hook-form"
 import {useDispatch, useStore } from 'react-redux'
@@ -31,6 +31,12 @@ export const BeanForm = (props: Props) => {
         window.addEventListener('keydown', close);
     },[])
 
+    function updateSuccess(){
+        return <Alert variant="outlined" severity="success">
+            Bean updated successfully
+        </Alert>
+    }
+
     const onSubmit = (data: any, event: any) => {
         console.log(data);
         
@@ -41,8 +47,9 @@ export const BeanForm = (props: Props) => {
           console.log(`data: ${data}`)
           server_calls.update(data, '91840b87-41fa-4546-b104-3efe868ca43e/'+props.coffeeID)
           console.log(`Updated: ${ data } ${ props.coffeeID }`);
-          setTimeout(() => {window.location.reload()}, 10000);
+          //setTimeout(() => {window.location.reload()}, 10000);
           event.target.reset();
+          updateSuccess();
         }
         else{
           // use dispatch to update our state in our store

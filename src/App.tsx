@@ -17,7 +17,12 @@ export default function App() {
             {routes.map((route: any, index:any) => (
               <Route key={index}
               path={route.path}
-              element={<route.component />}
+              element={
+              route.protected ?
+                <route.component />
+              :
+                <route.component />
+              }
               />
               ))
             }
