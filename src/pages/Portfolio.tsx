@@ -1,14 +1,13 @@
 import { BeanCard } from "../components/BeanCard"
-import { BeanPortfolio } from "../components/BeanProfile"
 import { useGetPortfolio } from "../custom-hooks/getPortfolio"
 import { BeanTable } from "../components/BeanTable";
 import { useEffect, useState } from "react";
 import { AddButton } from "../components/AddButton";
 import { DeleteButton } from "../components/DeleteButton";
+import { Link } from "react-router-dom";
 
 
-{/* <button><i className="fa-regular fa-pen-to-square"></i></button>
-                    <button className="mx-3"><i className="fa-solid fa-trash"></i></button> */}
+// TODO - make refresh for table and selected cards
 
 
 
@@ -29,8 +28,9 @@ interface userPortfolio{
 }
 
 export default function Portfolio() {
-    const { portfolioData, setPortfolioData } = useGetPortfolio();
     const [ selectionModel, setSelectionModel ] = useState<string[]>([])
+    const [ refreshTable, setRefreshTable ] = useState(false);
+    const { portfolioData, setPortfolioData } = useGetPortfolio();
     const [ loadBeans, setLoadBeans ] = useState<userPortfolio[]>([])
 
     const hiddenCols = {id: false, blend: false, variety: false}
@@ -42,59 +42,69 @@ export default function Portfolio() {
     
     const handleBeanCards = () => {
         setLoadBeans(portfolioData.filter( (obj) => selectionModel.includes(obj.id) ))
-
-
     }
+
+    const handleTableRefresh = () => {
+        setRefreshTable(true);
+    }
+
+    useEffect( () => {
+        setPortfolioData();
+        setRefreshTable(false);
+    }, [refreshTable])
     
     useEffect( () => {
-        console.log(`SelectionModel: ${selectionModel}`);
-        console.log(`portfolioData: ${JSON.stringify(loadBeans)}`)
+        // console.log(`SelectionModel: ${selectionModel}`);
+        // console.log(`portfolioData: ${JSON.stringify(loadBeans)}`)
         handleBeanCards();
-    }, [selectionModel])
+    }, [selectionModel, portfolioData])
 
   return (
     <>
     <div className="flex flex-row w-full py-2 px- bg-orange-200 h-screen/93 gap-4">
-        <div className="flex flex-col p-5 w-1/2  rounded-lg bg-orange-900">
+        <div className="flex flex-col p-5 w-1/2  rounded-lg bg-orange-800 shadow-lg">
             <BeanTable beanList={portfolioData} hiddenCols={hiddenCols} handleSelection={handleSelection}/>
             <div className="flex p-3 justify-between">
-                <AddButton icon={false}/>
-                    <DeleteButton icon={false} coffee={loadBeans} />
+                <AddButton icon={false} handleTableRefresh={ handleTableRefresh } />
+
+                    <DeleteButton icon={false} coffee={loadBeans} handleTableRefresh={handleTableRefresh} />
             </div>
         </div>
         <div className="flex flex-col w-1/2 gap-4 overflow-auto">
             {loadBeans.length > 0 ?
                 loadBeans.map( (obj) => (
-                    <>
-                        <div className="flex flex-row h-1/2 bg-red-200 rounded-lg shadow-lg p-5 mx-5">
-                            <div className="w-1/2">
+                    <div className="flex flex-row h-1/2 bg-red-200 rounded-lg shadow-lg p-5 mx-5 w-full">
+                            <Link to='/singleCoffee' state={{coffee: obj}} className="flex w-1/2 ">
+                            <div className="">
 
                                 <BeanCard coffee={obj} />
                                 
                             </div>
+                            </Link>
                             
                             <div className="flex flex-col w-1/2 p-5 gap-2">
-                                <div className="flex flex-row h-1/2 bg-red-800 text-orange-50 p-3 rounded-lg">
+                                <Link to='/singleCoffee' state={{coffee: obj}} className="flex flex-row h-1/2 bg-red-800 text-orange-50 p-3 rounded-lg">
 
-                                <span className="mx-1 w-1/4 font-bold text-orange-200">
-                                    Tasting Notes: {' '} 
-                                </span>
-                                    {obj.tasting_notes}
+                                    <span className="mx-1 mr-2 w-1/4 font-bold text-orange-200">
+                                        Tasting Notes: {' '} 
+                                    </span>
+                                        {obj.tasting_notes}
                                     
-                                </div>
-                                <div className="flex flex-row h-1/2 bg-red-800 text-orange-50 p-3 rounded-lg">
-                                    <span className="mx-1 w-1/4 font-bold text-orange-200">
+                                </Link>
+                                <Link to='/singleCoffee' state={{coffee: obj}} className="flex flex-row w-full h-1/2 bg-red-800 text-orange-50 p-3 rounded-lg">
+                                    <span className="mx-1 mr-2 w-1/4 font-bold text-orange-200">
                                         Flavors: {' '}
                                     </span>
+                                    <span className="w-3/4">
                                     { obj.flavors }
-                                </div>
+                                    </span>
+                                </Link>
                                 <div className="flex flex-row justify-end">
-                                    <AddButton icon={true}  coffeeID={obj.coffeeID} />
-                                    <DeleteButton icon={true} coffee={[obj]} />
+                                    <AddButton icon={true}  coffeeID={obj.coffeeID} handleTableRefresh={handleTableRefresh}/>
+                                    <DeleteButton icon={true} coffee={[obj]} handleTableRefresh={handleTableRefresh} />
                                 </div>
                             </div>
                         </div>
-                    </>
                     ))
                 :
                 <span>Select coffees to begin</span>

@@ -1,7 +1,7 @@
 // TODO pass props to add bean on individual bean page
 
 import { useEffect, useState } from "react";
-import { Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle } from "@mui/material";
+import { Alert, Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle } from "@mui/material";
 import { server_calls } from "../api/server";
 
 // Add beans from portfolio view, open Modal with AddBeans form
@@ -24,11 +24,14 @@ interface CoffeeItem {
 interface Props {
     icon: boolean,
     coffee: CoffeeItem[],
+    handleTableRefresh? : () => void
 }
 
 export const DeleteButton = (props: Props) => {
-    const [alertVisibility, setAlertVisibility ] = useState(false)
-    const userID= '91840b87-41fa-4546-b104-3efe868ca43e'
+    const [alertVisibility, setAlertVisibility ] = useState(false);
+    const [ successVisibility, setSuccessVisibility ] = useState(false);
+    const userID= '91840b87-41fa-4546-b104-3efe868ca43e';
+    
     function handleClick () {
         setAlertVisibility(!alertVisibility)
     }
@@ -37,13 +40,27 @@ export const DeleteButton = (props: Props) => {
         setAlertVisibility(false)
     }
 
+    function deleteSuccess(){
+        setSuccessVisibility(true)
+        setTimeout( () => {}, 3000)
+        closeDeleteSuccess();
+    }
+
+    function closeDeleteSuccess() {
+        setSuccessVisibility(false)
+    }
+
     function handleConfirm () {
         // call delete function
         console.log('DELETED!');
         props.coffee.map( (obj) => {
-            server_calls.delete_coffee(userID+'/'+obj.coffeeID)
+            server_calls.delete_coffee(userID+'/'+obj.coffeeID);
         })
         setAlertVisibility(false)
+        if(props.handleTableRefresh) {
+            props.handleTableRefresh();
+        }
+        deleteSuccess();
     }
 
     useEffect( () => {
@@ -91,6 +108,17 @@ export const DeleteButton = (props: Props) => {
                     </DialogActions>
                 </DialogContent>
             </Dialog>
+            
+            { 
+                successVisibility ?
+                    <Alert variant="outlined" severity="success">
+                        Bean updated successfully
+                    </Alert>
+                :
+                    <></>
+
+            }
+    
         
     </>
   )

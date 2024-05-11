@@ -8,6 +8,7 @@ export default {
     extend: {
       height:{
         'screen/93': '93vh',
+        '1/2vh': '50vh'
       },
       width:{
         'screen/90': '90vw',

@@ -2,7 +2,7 @@
 // will accept some optional prop for update 
 // if prop.update -> updateAPIendpoint
 
-import { Alert, FormControlLabel, Radio, RadioGroup, TextField } from "@mui/material"
+import { FormControlLabel, Radio, RadioGroup, TextField } from "@mui/material"
 import { useEffect } from "react"
 import { useForm } from "react-hook-form"
 import {useDispatch, useStore } from 'react-redux'
@@ -12,7 +12,8 @@ import { orange } from "@mui/material/colors"
 
 
 interface Props {
-    handleClick: () => void // opens and closes Coffee Form Modal
+    handleClick: () => void, // opens and closes Coffee Form Modal
+    handleTableRefresh?: () => void,
     coffeeID?: string
 }
 
@@ -20,7 +21,7 @@ export const BeanForm = (props: Props) => {
     const { register, handleSubmit } = useForm({});
     const dispatch = useDispatch();
     const store = useStore();
-    const endpoint = '91840b87-41fa-4546-b104-3efe868ca43e';
+    const userID = '91840b87-41fa-4546-b104-3efe868ca43e';
 
     useEffect(() => {
         const close = (e: KeyboardEvent) => {
@@ -31,12 +32,6 @@ export const BeanForm = (props: Props) => {
         window.addEventListener('keydown', close);
     },[])
 
-    function updateSuccess(){
-        return <Alert variant="outlined" severity="success">
-            Bean updated successfully
-        </Alert>
-    }
-
     const onSubmit = (data: any, event: any) => {
         console.log(data);
         
@@ -45,11 +40,10 @@ export const BeanForm = (props: Props) => {
   
           // below is original code
           console.log(`data: ${data}`)
-          server_calls.update(data, '91840b87-41fa-4546-b104-3efe868ca43e/'+props.coffeeID)
+          server_calls.update(data, userID+'/'+props.coffeeID)
           console.log(`Updated: ${ data } ${ props.coffeeID }`);
           //setTimeout(() => {window.location.reload()}, 10000);
           event.target.reset();
-          updateSuccess();
         }
         else{
           // use dispatch to update our state in our store
@@ -64,8 +58,12 @@ export const BeanForm = (props: Props) => {
           dispatch(chooseTasting_notes(data.tasting_notes))
           dispatch(chooseAcidity(data.acidity))
     
-          server_calls.create(store.getState(), endpoint)
+          server_calls.create(store.getState(), userID)
           //setTimeout( () => {window.location.reload()}, 10000)
+        }
+        props.handleClick();
+        if (props.handleTableRefresh){
+            props.handleTableRefresh()
         }
       }
 
@@ -76,7 +74,9 @@ export const BeanForm = (props: Props) => {
         className="w-2/3 bg-red-800  h-100 overflow-auto justify-self-center rounded-md p-5">
             <form onSubmit={handleSubmit(onSubmit)}>
                 <div>
-                    <label className="text-orange-100 font-bold" htmlFor="roaster">Roaster</label>
+                    <label className="text-orange-100 font-bold" htmlFor="roaster">Roaster 
+                        <span className="font-light text-red-400">{' *required'}</span>
+                    </label>
                     <TextField
                     placeholder="Roaster"
                     className="bg-orange-100 rounded text-fields"
@@ -84,13 +84,16 @@ export const BeanForm = (props: Props) => {
                     margin="normal"
                     {...register('roaster')}
                     fullWidth
+                    required={true}
                     type='text'
                     id="roaster"
                     >
                     </TextField>
                 </div>
                 <div>
-                    <label className="text-orange-100 font-bold" htmlFor="bag_name">Bag</label>
+                    <label className="text-orange-100 font-bold" htmlFor="bag_name">Bag 
+                        <span className="font-light text-red-400">{' *required'}</span>
+                    </label>
                     <TextField
                     placeholder="Bag"
                     className="bg-orange-100 rounded text-fields"
@@ -98,6 +101,7 @@ export const BeanForm = (props: Props) => {
                     margin="normal"
                     {...register('bag_name')}
                     fullWidth
+                    required
                     type='text'
                     id="bag_name"
                     >
@@ -239,7 +243,7 @@ export const BeanForm = (props: Props) => {
                 <div>
                     <label className="text-orange-100 font-bold" htmlFor="tasting_notes">Tasting Notes</label>
                     <TextField
-                    placeholder="Addition notes (method/experience/etc...)"
+                    placeholder="Additional notes (method/experience/etc...)"
                     className="bg-orange-100 rounded text-fields"
                     variant = "outlined"
                     margin="normal"
@@ -248,7 +252,9 @@ export const BeanForm = (props: Props) => {
                     type='text'
                     id="tasting_notes"
                     multiline
+                    inputProps={{maxLength: 200}}
                     minRows={3}
+                    helperText={'200 char limit'}
                     />
                 </div>
                 <button type="submit"

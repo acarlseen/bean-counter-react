@@ -13,7 +13,8 @@ interface userPortfolio{
     blend: string,
     tasting_notes: string,
     timestamp: string,
-    flavors: string
+    flavors: string,
+    coffeeID: string,
 }
 
 const portfolioEndpoint = "91840b87-41fa-4546-b104-3efe868ca43e"

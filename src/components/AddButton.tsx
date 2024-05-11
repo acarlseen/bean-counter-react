@@ -8,6 +8,7 @@ import { BeanForm } from "./BeanForm";
 interface Props {
     icon: boolean,
     coffeeID?: string,
+    handleTableRefresh? : () => void;
 }
 
 export const AddButton = (props: Props) => {
@@ -25,7 +26,7 @@ export const AddButton = (props: Props) => {
             </button>
             {
                 modalVisisbility ?
-                    <BeanForm handleClick={handleClick} coffeeID={ props.coffeeID } />
+                    <BeanForm handleClick={handleClick} handleTableRefresh={props.handleTableRefresh} coffeeID={ props.coffeeID } />
                 : 
                 <></>
             }
@@ -38,7 +39,7 @@ export const AddButton = (props: Props) => {
             </button>
             {
                 modalVisisbility ?
-                    <BeanForm handleClick={handleClick} coffeeID={ props.coffeeID } />
+                    <BeanForm handleClick={handleClick} handleTableRefresh={props.handleTableRefresh} coffeeID={ props.coffeeID } />
                 : 
                 <></>
             }

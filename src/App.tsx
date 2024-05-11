@@ -5,6 +5,7 @@ import { store } from './redux/store';
 import {routes} from './config/routes'
 
 import { Navbar } from "./components/Navbar";
+import AuthChecker from './auth/AuthChecker';
 
 // TODO - SITEWIDE Theme colors and apply
 
@@ -19,7 +20,9 @@ export default function App() {
               path={route.path}
               element={
               route.protected ?
+              <AuthChecker>
                 <route.component />
+              </AuthChecker>
               :
                 <route.component />
               }

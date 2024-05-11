@@ -5,7 +5,6 @@
 //TODO - accept arguments for hidden columns
 
 import { DataGrid, GridColDef } from "@mui/x-data-grid"
-import { useEffect, useState } from "react"
 
 interface BeanList {
     id?: string,

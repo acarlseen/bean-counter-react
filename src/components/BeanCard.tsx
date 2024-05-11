@@ -16,12 +16,12 @@ interface Props {
 
 export const BeanCard = (props: Props) => {
   return (
-    <div className="flex flex-col h-100 w-100  bg-orange-900 rounded-lg shadow-lg p-5 gap-4">
+    <div className="flex flex-col h-full w-100  bg-orange-900 rounded-lg shadow-lg p-5 gap-4">
         
-        <div className="flex flex-row h-4 w-100 rounded-xl bg-emerald-700">
+        <div className="flex flex-row h-4 w-100 rounded-xl bg-emerald-800">
             
         </div>
-        <div className="flex flex-row justify-center bg-orange-100 rounded-lg">
+        <div className="flex flex-row justify-center bg-orange-100 rounded-lg h-full">
             <table className="border-spacing-x-3 border-separate m-3">
                 <tbody>
                     <tr key={`0-${props.coffee.id}`}>

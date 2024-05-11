@@ -1,7 +1,7 @@
 //TODO add Auth0 access token
 
-//const base_url = 'https://coffee-ojjf.onrender.com/api'
-const base_url = 'http://127.0.0.1:5000/api'
+const base_url = 'https://coffee-ojjf.onrender.com/api'
+//const base_url = 'http://127.0.0.1:5000/api'
 const token = 'bearer 8fae4124a57c04b3da8f6e745305083f781627a4f0062b73'
 
 export const server_calls = {

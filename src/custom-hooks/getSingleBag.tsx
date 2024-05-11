@@ -10,13 +10,14 @@ interface SingleBean {
     process_method: string,
     producer: string,
     roaster: string,
-    variety: string
+    variety: string,
+    flavors: string
 }
 
-const singleBeanEndpoint = "coffee//b009bffa-8a0a-456a-8c8e-159b69690da9"
+const singleBeanEndpoint = "coffee/b009bffa-8a0a-456a-8c8e-159b69690da9"
 
 export const useGetBag = () => {
-    const [beanData, setBeanData] = useState<SingleBean>({})
+    const [beanData, setBeanData] = useState<SingleBean>()
 
     async function handleBeanBagFetch() {
         const result = await server_calls.getPublic(singleBeanEndpoint);
