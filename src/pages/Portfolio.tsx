@@ -73,7 +73,7 @@ export default function Portfolio() {
         <div className="flex flex-col w-1/2 gap-4 overflow-auto">
             {loadBeans.length > 0 ?
                 loadBeans.map( (obj) => (
-                    <div className="flex flex-row h-1/2 bg-red-200 rounded-lg shadow-lg p-5 mx-5 w-full">
+                    <div className="flex flex-row h-1/2 bg-red-200 rounded-lg shadow-lg p-5 w-full">
                             <Link to='/singleCoffee' state={{coffee: obj}} className="flex w-1/2 ">
                             <div className="">
 

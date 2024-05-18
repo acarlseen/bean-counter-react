@@ -1,15 +1,18 @@
-//TODO add Auth0 access token
+//const base_url = 'https://coffee-ojjf.onrender.com/api'
+const base_url = 'http://127.0.0.1:5000/api'
+const token = localStorage.getItem('accessToken')
 
-const base_url = 'https://coffee-ojjf.onrender.com/api'
-//const base_url = 'http://127.0.0.1:5000/api'
-const token = 'bearer 8fae4124a57c04b3da8f6e745305083f781627a4f0062b73'
 
 export const server_calls = {
     tester: async () => {
-        const response = await fetch(`${base_url}/tester`, {
+        const JWT = localStorage.getItem('accessToken')
+        console.log(`TOKEN SENT: ${JWT}`);
+
+        
+        const response = await fetch(`${base_url}/`, {
             method: 'GET',
             headers: {
-
+                'Authorization' : `Bearer ${JWT}`
             }
             
         });
@@ -17,14 +20,16 @@ export const server_calls = {
         if(!response.ok){
             throw new Error('Could not get tester')
         }
+        return await response.json()
     },
     get: async (endpoint: string) => {
+        //const JWT = localStorage.getItem('accessToken')
         console.log(endpoint)
         console.log(token)
         const response = await fetch(`${base_url}/${endpoint}`,{
             method: 'GET',
             headers: {
-                'x-access-token': token
+                'Authorization': `Bearer ${token}`
             }
         });
 
@@ -36,7 +41,6 @@ export const server_calls = {
     },
     getPublic: async (endpoint: string) => {
         console.log(endpoint)
-        console.log(token)
         const response = await fetch(`${base_url}/${endpoint}`,{
             method: 'GET',
             headers: {
@@ -51,11 +55,13 @@ export const server_calls = {
         return await response.json();
     },
     create: async (data: any, endpoint: string) => {
+        console.log(endpoint)
+        console.log(token)
         const response = await fetch(`${base_url}/${endpoint}`,{
             method: 'POST',
             headers: {
                 'Content-type' : 'application/JSON',
-                'x-access-token': token
+                'Authorization': `Bearer ${token}`
             },
             body: JSON.stringify(data)
         });
@@ -74,7 +80,7 @@ update: async (data: any, endpoint: string) => {
             method: 'PUT',
             headers: {
                 'Content-type' : 'application/JSON',
-                'x-access-token': token
+                'Authorization': `Bearer ${token}`
             },
             body: JSON.stringify(data)
         });
@@ -91,8 +97,8 @@ update: async (data: any, endpoint: string) => {
         const response = await fetch(`${base_url}/${endpoint}`,{
             method: 'DELETE',
             headers: {
-                'x-access-token': token,
-                'Content-type': 'application/JSON'
+                'Authorization': `Bearer ${token}`,
+                
             }
         });
 
@@ -103,3 +109,4 @@ update: async (data: any, endpoint: string) => {
         return await response.json()
     },
 }
+

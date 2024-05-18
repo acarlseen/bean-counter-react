@@ -10,10 +10,12 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
   domain={auth0Config.DOMAIN}
   clientId={auth0Config.CLIENT_ID}
   authorizationParams={{
-    redirect_uri: window.location.origin
+    redirect_uri: window.location.origin,
+    audience:`http://BeanCounter.com/api`,
+    scope: "read:tester"
       }}>
     <React.StrictMode>
       <App />
-    </React.StrictMode>,
+    </React.StrictMode>
   </Auth0Provider>
 )

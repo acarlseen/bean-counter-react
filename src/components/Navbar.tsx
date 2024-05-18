@@ -1,15 +1,33 @@
 import { Link } from "react-router-dom"
 import { useAuth0 } from "@auth0/auth0-react"
+import { useEffect, useState } from "react";
+import { getToken } from "../auth/getToken";
+import { useLocalizeUserData } from "../custom-hooks/localizeUserData";
 
 export const Navbar = () => {
     const {isAuthenticated, loginWithRedirect, logout } = useAuth0()
+    const [loggedIn, setLoggedIn] = useState(isAuthenticated);
+    const { token, setToken } = getToken();
+    const { localizeUserData } = useLocalizeUserData();
 
+    useEffect( () => {
+        setToken();
+    }, [loggedIn])
+
+    useEffect( () => {
+        localizeUserData(); 
+    }, [token])
+    
     function handleSignIn () {
         loginWithRedirect();
+        setLoggedIn(isAuthenticated)
     }
+
+    
 
     function handleSignOut() {
         logout();
+        localStorage.clear()
     }
 
   return (

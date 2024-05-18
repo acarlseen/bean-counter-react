@@ -17,14 +17,25 @@ interface userPortfolio{
     coffeeID: string,
 }
 
-const portfolioEndpoint = "91840b87-41fa-4546-b104-3efe868ca43e"
+interface Props{
+    userID? : string|null,
+}
+
+//const portfolioEndpoint = "91840b87-41fa-4546-b104-3efe868ca43e"
 
 // TODO - sort portfolioData by roaster before returning
-export const useGetPortfolio = ()  => {
+export const useGetPortfolio = (props: Partial<Props>={})  => {
     const [portfolioData, setPortfolioData] = useState<userPortfolio[]>([])
-
+    
     async function handlePortfolioFetch() {
-        const result = await server_calls.get(portfolioEndpoint);
+        //const userID = await getUserID()
+        let result:userPortfolio[]
+        if(!props.userID){
+            result = await server_calls.get(localStorage.getItem('userID')!);
+        }
+        else{
+            result = await server_calls.get(props.userID!);
+        }
         setPortfolioData(result);
     }
     

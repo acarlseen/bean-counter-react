@@ -21,7 +21,7 @@ export const BeanForm = (props: Props) => {
     const { register, handleSubmit } = useForm({});
     const dispatch = useDispatch();
     const store = useStore();
-    const userID = '91840b87-41fa-4546-b104-3efe868ca43e';
+    const userID = localStorage.getItem('userID')
 
     useEffect(() => {
         const close = (e: KeyboardEvent) => {

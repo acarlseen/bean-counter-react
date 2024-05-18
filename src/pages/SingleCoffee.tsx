@@ -13,6 +13,7 @@ export default function SingleCoffee() {
     const implemented = false
     const location = useLocation();
     const { coffee } = location.state
+    var flavors: string[] = ['']
 
     const [inPortofilio ] = useState(false)
     //const { beanData } = useGetBag();
@@ -27,7 +28,9 @@ export default function SingleCoffee() {
     //         setFlavors(temp)}
         
     // }, [beanData])
-    const flavors = coffee.flavors.split(', ')
+    if( coffee.flavors ){
+        flavors = coffee.flavors.split(', ')
+    }
     return (
         <>
         <div className="flex flex-row w-full">

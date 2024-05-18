@@ -30,7 +30,7 @@ interface Props {
 export const DeleteButton = (props: Props) => {
     const [alertVisibility, setAlertVisibility ] = useState(false);
     const [ successVisibility, setSuccessVisibility ] = useState(false);
-    const userID= '91840b87-41fa-4546-b104-3efe868ca43e';
+    const userID= localStorage.getItem('userID')
     
     function handleClick () {
         setAlertVisibility(!alertVisibility)

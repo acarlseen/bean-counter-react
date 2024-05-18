@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { server_calls } from "../api/server";
 
-//TODO set endpoint
+//TODO set endpoint, check if using this hook anywhere at all
 
 interface SingleBean {
     bag_name: string,

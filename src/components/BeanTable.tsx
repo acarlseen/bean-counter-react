@@ -35,13 +35,6 @@ const columns : GridColDef[] = [
 ]
 
 export const BeanTable = (props: Props) => {
-
-
-
-  console.log(props);
-  
-
-  
   
   return (
     <div className="flex bg-black bg-opacity-30 text-white">
