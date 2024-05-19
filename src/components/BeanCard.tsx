@@ -16,7 +16,7 @@ interface Props {
 
 export const BeanCard = (props: Props) => {
   return (
-    <div className="flex flex-col h-full w-100  bg-orange-900 rounded-lg shadow-lg p-5 gap-4">
+    <div className="flex flex-col h-full w-full  bg-orange-900 rounded-lg shadow-lg p-5 gap-4">
         
         <div className="flex flex-row h-4 w-100 rounded-xl bg-emerald-800">
             

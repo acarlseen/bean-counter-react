@@ -61,8 +61,8 @@ export default function Portfolio() {
 
   return (
     <>
-    <div className="flex flex-row w-full py-2 px- bg-orange-200 h-screen/93 gap-4">
-        <div className="flex flex-col p-5 w-1/2  rounded-lg bg-orange-800 shadow-lg">
+    <div className="flex flex-row w-full py-2 px-3 h-screen/93 gap-4">
+        <div className="flex flex-col p-5 w-1/2  rounded-lg bg-orange-800 bg-opacity-50 shadow-lg">
             <BeanTable beanList={portfolioData} hiddenCols={hiddenCols} handleSelection={handleSelection}/>
             <div className="flex p-3 justify-between">
                 <AddButton icon={false} handleTableRefresh={ handleTableRefresh } />
@@ -70,12 +70,12 @@ export default function Portfolio() {
                     <DeleteButton icon={false} coffee={loadBeans} handleTableRefresh={handleTableRefresh} />
             </div>
         </div>
-        <div className="flex flex-col w-1/2 gap-4 overflow-auto">
+        <div className="flex flex-col w-1/2 gap-4 overflow-auto rounded-2xl h-full">
             {loadBeans.length > 0 ?
                 loadBeans.map( (obj) => (
-                    <div className="flex flex-row h-1/2 bg-red-200 rounded-lg shadow-lg p-5 w-full">
-                            <Link to='/singleCoffee' state={{coffee: obj}} className="flex w-1/2 ">
-                            <div className="">
+                    <div key={obj.id} className="flex flex-row h-portfolioCard min-h-1/2 bg-orange-800 bg-opacity-50 rounded-lg shadow-lg p-5 w-full">
+                            <Link to='/singleCoffee' state={{coffee: obj}} className="flex w-1/2">
+                            <div className="w-full">
 
                                 <BeanCard coffee={obj} />
                                 
@@ -99,15 +99,24 @@ export default function Portfolio() {
                                     { obj.flavors }
                                     </span>
                                 </Link>
-                                <div className="flex flex-row justify-end">
-                                    <AddButton icon={true}  coffeeID={obj.coffeeID} handleTableRefresh={handleTableRefresh}/>
-                                    <DeleteButton icon={true} coffee={[obj]} handleTableRefresh={handleTableRefresh} />
+                                <div className="flex flex-row justify-between">
+                                    <div></div>
+                                    <div className="flex-col bg-orange-100 bg-opacity-75 rounded px-2">
+                                        <div className="flex flex-row gap-2">
+                                            <AddButton icon={true}  coffee={obj} handleTableRefresh={handleTableRefresh}/>
+                                            <DeleteButton icon={true} coffee={[obj]} handleTableRefresh={handleTableRefresh} />
+
+                                        </div>
+
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     ))
                 :
-                <span>Select coffees to begin</span>
+                    <div className="flex flex-col w-full place-content-center bg-black bg-opacity-60 h-full">
+                        <span className="text-white text-2xl text-center m-5 rounded-lg ">Select coffees to begin</span>
+                    </div>
 
                 }
             

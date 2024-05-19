@@ -37,7 +37,7 @@ const columns : GridColDef[] = [
 export const BeanTable = (props: Props) => {
   
   return (
-    <div className="flex bg-black bg-opacity-30 text-white">
+    <div className="flex bg-black bg-opacity-100 text-white rounded">
                 <DataGrid rows={props.beanList} columns={columns}
                         checkboxSelection={true} 
                         columnVisibilityModel={props.hiddenCols}

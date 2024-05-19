@@ -11,17 +11,32 @@ import { server_calls } from "../api/server"
 import { orange } from "@mui/material/colors"
 
 
+interface portfolioEntry{ 
+    id: string,
+    roaster: string,
+    bag_name: string,
+    origin: string,
+    variety: string,
+    producer: string,
+    process_method: string,
+    blend: string,
+    tasting_notes?: string,
+    timestamp: string,
+    flavors?: string,
+    coffeeID: string,
+}
+
 interface Props {
     handleClick: () => void, // opens and closes Coffee Form Modal
     handleTableRefresh?: () => void,
-    coffeeID?: string
+    coffee?: portfolioEntry
 }
 
 export const BeanForm = (props: Props) => {
     const { register, handleSubmit } = useForm({});
     const dispatch = useDispatch();
     const store = useStore();
-    const userID = localStorage.getItem('userID')
+    const userID = localStorage.getItem('userID')!
 
     useEffect(() => {
         const close = (e: KeyboardEvent) => {
@@ -35,13 +50,13 @@ export const BeanForm = (props: Props) => {
     const onSubmit = (data: any, event: any) => {
         console.log(data);
         
-        if (props.coffeeID){
-            console.log(`ID: ${props.coffeeID}`);
+        if (props.coffee){
+            console.log(`ID: ${props.coffee}`);
   
           // below is original code
           console.log(`data: ${data}`)
-          server_calls.update(data, userID+'/'+props.coffeeID)
-          console.log(`Updated: ${ data } ${ props.coffeeID }`);
+          server_calls.update(data, userID+'/'+props.coffee.coffeeID)
+          console.log(`Updated: ${ data } ${ props.coffee.coffeeID }`);
           //setTimeout(() => {window.location.reload()}, 10000);
           event.target.reset();
         }
@@ -87,6 +102,7 @@ export const BeanForm = (props: Props) => {
                     required={true}
                     type='text'
                     id="roaster"
+                    defaultValue={props.coffee ? props.coffee.roaster : null}
                     >
                     </TextField>
                 </div>
@@ -104,6 +120,7 @@ export const BeanForm = (props: Props) => {
                     required
                     type='text'
                     id="bag_name"
+                    defaultValue={props.coffee ? props.coffee.bag_name : null}
                     >
                     </TextField>
                 </div>
@@ -118,6 +135,7 @@ export const BeanForm = (props: Props) => {
                     fullWidth
                     type='text'
                     id="origin"
+                    defaultValue={props.coffee ? props.coffee.origin : null}
                     >
                     </TextField>
                 </div>
@@ -132,6 +150,7 @@ export const BeanForm = (props: Props) => {
                     fullWidth
                     type='text'
                     id="variety"
+                    defaultValue={props.coffee ? props.coffee.variety : null}
                     >
                     </TextField>
                 </div>
@@ -146,6 +165,7 @@ export const BeanForm = (props: Props) => {
                     fullWidth
                     type='text'
                     id="process_method"
+                    defaultValue={props.coffee ? props.coffee.process_method : null}
                     >
                     </TextField>
                 </div>
@@ -160,6 +180,7 @@ export const BeanForm = (props: Props) => {
                     fullWidth
                     type='text'
                     id="producer"
+                    defaultValue={props.coffee ? props.coffee.producer : null}
                     >
                     </TextField>
                 </div>
@@ -170,7 +191,7 @@ export const BeanForm = (props: Props) => {
                         className="justify-evenly"
                         row
                         name="blend"
-                        defaultValue='Single Origin'
+                        defaultValue={props.coffee ? props.coffee.blend : 'Single Origin'}
                         >
                             <FormControlLabel className="text-orange-100" 
                                 value='Single Origin' 
@@ -237,6 +258,7 @@ export const BeanForm = (props: Props) => {
                     fullWidth
                     type='text'
                     id="flavors"
+                    defaultValue={props.coffee?.flavors ? props.coffee.flavors : null}
                     >
                     </TextField>
                 </div>
@@ -255,6 +277,7 @@ export const BeanForm = (props: Props) => {
                     inputProps={{maxLength: 200}}
                     minRows={3}
                     helperText={'200 char limit'}
+                    defaultValue={props.coffee?.tasting_notes ? props.coffee.tasting_notes : null}
                     />
                 </div>
                 <button type="submit"

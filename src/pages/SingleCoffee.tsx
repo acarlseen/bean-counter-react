@@ -10,7 +10,7 @@ import { useLocation } from "react-router-dom";
 // a list of beans passed via props
 
 export default function SingleCoffee() {
-    const implemented = false
+    const implemented = true
     const location = useLocation();
     const { coffee } = location.state
     var flavors: string[] = ['']
@@ -40,7 +40,7 @@ export default function SingleCoffee() {
                 {
                     implemented ? 
                         <div className="flex justify-center">
-                            <AddButton icon={false} />
+                            <AddButton icon={false} coffee={coffee} />
                         </div>
                     :
                     <></>

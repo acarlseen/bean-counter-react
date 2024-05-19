@@ -5,9 +5,24 @@ import { BeanForm } from "./BeanForm";
 
 // Add beans from portfolio view, open Modal with AddBeans form
 
+interface portfolioEntry{ 
+    id: string,
+    roaster: string,
+    bag_name: string,
+    origin: string,
+    variety: string,
+    producer: string,
+    process_method: string,
+    blend: string,
+    tasting_notes?: string,
+    timestamp: string,
+    flavors?: string,
+    coffeeID: string,
+}
+
 interface Props {
     icon: boolean,
-    coffeeID?: string,
+    coffee?: portfolioEntry,
     handleTableRefresh? : () => void;
 }
 
@@ -26,7 +41,7 @@ export const AddButton = (props: Props) => {
             </button>
             {
                 modalVisisbility ?
-                    <BeanForm handleClick={handleClick} handleTableRefresh={props.handleTableRefresh} coffeeID={ props.coffeeID } />
+                    <BeanForm handleClick={handleClick} handleTableRefresh={props.handleTableRefresh} coffee={ props.coffee } />
                 : 
                 <></>
             }
@@ -39,7 +54,7 @@ export const AddButton = (props: Props) => {
             </button>
             {
                 modalVisisbility ?
-                    <BeanForm handleClick={handleClick} handleTableRefresh={props.handleTableRefresh} coffeeID={ props.coffeeID } />
+                    <BeanForm handleClick={handleClick} handleTableRefresh={props.handleTableRefresh} coffee={ props.coffee } />
                 : 
                 <></>
             }
